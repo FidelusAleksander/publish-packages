@@ -31,7 +31,7 @@ The `docker/build-push-action` replaces manual `docker build` and `docker push` 
      with:
        context: .
        push: true
-       tags: ghcr.io/${{ github.repository }}:latest
+       tags: ghcr.io/{{ full_repo_name | lower }}:latest
    ```
 1. Commit and push your changes to the `main` branch.
 

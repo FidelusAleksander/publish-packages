@@ -44,7 +44,6 @@ Basic Docker workflows use standard `docker build` and `docker push` commands wi
 1. Add the `build-and-push` job to the end of the file:
 
    ```yaml
-   {% raw %}
    jobs:
      build-and-push:
        runs-on: ubuntu-latest
@@ -54,13 +53,12 @@ Basic Docker workflows use standard `docker build` and `docker push` commands wi
            uses: docker/login-action@v3
            with:
              registry: ghcr.io
-             username: ${{ github.actor }}
-             password: ${{ secrets.GITHUB_TOKEN }}
+             username: {% raw %}${{ github.actor }}{% endraw %}
+             password: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
          - name: Build and push Docker image
            run: |
-             docker build . --tag ghcr.io/${{ github.repository }}:latest
-             docker push ghcr.io/${{ github.repository }}:latest
-   {% endraw %}
+             docker build . --tag ghcr.io/{{ full_repo_name | lower }}/stackoverflown:latest
+             docker push ghcr.io/{{ full_repo_name | lower }}/stackoverflown:latest
    ```
 
    This job checks out the code, logs in to the GitHub Container Registry using the `GITHUB_TOKEN` (which has `packages: write` permissions), and then builds and pushes the Docker image.

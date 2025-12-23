@@ -32,7 +32,7 @@ This action extracts information from Git references and GitHub events to create
      id: meta
      uses: docker/metadata-action@v5
      with:
-       images: ghcr.io/${{ github.repository }}
+       images: ghcr.io/{{ full_repo_name | lower }}
    ```
 1. Update the `docker/build-push-action` step to use the generated tags and labels.
    ```yaml
