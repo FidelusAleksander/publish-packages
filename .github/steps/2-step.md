@@ -1,7 +1,5 @@
 ## Step 2: Enhanced Docker Actions
 
-
-
 ### 📖 Theory: Specialized Docker Actions
 
 <!-- While basic Docker commands work, specialized GitHub Actions provide significant improvements for container workflows. The `docker/setup-buildx-action` enables BuildKit features like advanced caching, multi-platform builds, and improved performance.
@@ -27,23 +25,25 @@ The `docker/build-push-action` replaces manual `docker build` and `docker push` 
 
 1. Edit `.github/workflows/docker-publish.yml`.
 1. Remove your existing `Build and push Docker image` step with `docker` commands. We will replace that with open source actions.
-1. Add these following two steps
+1. Add these following two steps in place of the step you just removed
 
    ```yaml
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        push: true
-        provenance: true
-        tags: |
-          ghcr.io/{{ full_repo_name | lower }}:latest
-          ghcr.io/{{ full_repo_name | lower }}:{% raw %}${{ github.sha }}{% endraw %}
+   - name: Set up Docker Buildx
+     uses: docker/setup-buildx-action@v3
+   - name: Build and push Docker image
+     uses: docker/build-push-action@v6
+     with:
+       context: .
+       push: true
+       provenance: true
+       tags: |
+         ghcr.io/{{ full_repo_name | lower }}/stackoverflown:latest
+         ghcr.io/{{ full_repo_name | lower }}/stackoverflown:{% raw %}${{ github.sha }}{% endraw %}
    ```
 
    Ensure the yaml indentation is setup correctly!
+
+   > 💡 **Tip:** You can run `actionlint` command in the terminal to see if the workflow is properly formatted.
 
 1. Commit and push your changes to the `main` branch.
 

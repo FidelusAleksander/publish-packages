@@ -24,19 +24,23 @@ This action extracts information from Git references and GitHub events to create
    ```yaml
    on:
      push:
-       branches: ["main"]
-       tags: ["v*"]
+       branches:
+         - main
+       tags:
+         - "v*"
    ```
 
-1. Add a step to extract metadata (tags, labels) for Docker using `docker/metadata-action@v5`. Place it after the login step.
+1. Add a step to extract metadata (tags, labels) for Docker images
 
-   ```yaml
-   - name: Extract metadata (tags, labels) for Docker
-     id: meta
-     uses: docker/metadata-action@v5
-     with:
-       images: ghcr.io/{{ full_repo_name | lower }}
-   ```
+Place it after the `docker/login-action` step.
+
+```yaml
+- name: Extract metadata (tags, labels) for Docker
+  id: meta
+  uses: docker/metadata-action@v5
+  with:
+    images: ghcr.io/{{ full_repo_name | lower }}/stackoverflown
+```
 
 1. Update the `docker/build-push-action` step to use the generated tags and labels.
 
@@ -47,15 +51,14 @@ This action extracts information from Git references and GitHub events to create
        context: .
        push: true
        provenance: true
-       tags: ${{ steps.meta.outputs.tags }}
-       labels: ${{ steps.meta.outputs.labels }}
+       tags: {% raw %}${{ steps.meta.outputs.tags }}{% endraw %}
+       labels: {% raw %}${{ steps.meta.outputs.labels }}{% endraw %}
    ```
 
-1. Commit and push your changes to the `main` branch.
+1. Commit your changes and push a new tag to test the versioning (e.g., `v1.0.0`).
 
-1. Create and push a new tag to test the versioning (e.g., `v1.0.0`).
-
-   ```bash
+   ```bash aa git commit -am "Add dynamic tagging" && git push
+   git push
    git tag v1.0.0
    git push origin v1.0.0
    ```
@@ -65,6 +68,6 @@ This action extracts information from Git references and GitHub events to create
 
 - Make sure you gave the metadata step an `id: meta` so you can reference its outputs.
 - Ensure the `tags` trigger pattern matches the tag you push (e.g., `v*.*.*` matches `v1.0.0`).
-- Check that you are using `${{ steps.meta.outputs.tags }}` and `${{ steps.meta.outputs.labels }}` correctly.
+- Check that you are using `{% raw %}${{ steps.meta.outputs.tags }}{% endraw %}` and `{% raw %}${{ steps.meta.outputs.labels }}{% endraw %}` correctly.
 
 </details>

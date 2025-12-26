@@ -42,9 +42,9 @@ Adding pull request triggers allows testing your Docker workflow before merging 
      uses: docker/build-push-action@v5
      with:
        context: .
-       push: ${{ github.event_name != 'pull_request' }}
-       tags: ${{ steps.meta.outputs.tags }}
-       labels: ${{ steps.meta.outputs.labels }}
+       push: {% raw %}${{ github.event_name != 'pull_request' }}{% endraw %}
+       tags: {% raw %}${{ steps.meta.outputs.tags }}{% endraw %}
+       labels: {% raw %}${{ steps.meta.outputs.labels }}{% endraw %}
        platforms: linux/amd64,linux/arm64
    ```
    _Note: We set `push` to false for pull requests to avoid publishing untested images._
