@@ -1,11 +1,10 @@
 name: Step 0 # Start Exercise
 
 on:
-  workflow_dispatch:
-  # NOTE: Make sure the repository is a template before enabling this trigger.
-  # push:
-  #   branches:
-  #     - main
+  # workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
