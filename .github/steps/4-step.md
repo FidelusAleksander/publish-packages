@@ -1,6 +1,6 @@
 ## Step 4: Multi-Platform Support and PR Testing
 
-### 📖 Theory: Cross-Platform Builds and CI
+<!-- ### 📖 Theory: Cross-Platform Builds and CI
 
 Modern applications need to run on different processor architectures. The `docker/setup-qemu-action` enables emulation for building images that target different platforms like ARM64 (Apple Silicon, Raspberry Pi) and AMD64 (Intel/AMD processors) from a single workflow.
 
@@ -14,7 +14,7 @@ Adding pull request triggers allows testing your Docker workflow before merging 
 #### References
 
 - [Multi-platform builds with Buildx](https://docs.docker.com/buildx/working-with-buildx/#build-multi-platform-images)
-- [GitHub Actions pull request triggers](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request)
+- [GitHub Actions pull request triggers](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request) -->
 
 ### ⌨️ Activity: Add Multi-Platform and PR Support
 
@@ -32,11 +32,14 @@ Adding pull request triggers allows testing your Docker workflow before merging 
    ```
 
 1. Add a step to set up QEMU using `docker/setup-qemu-action@v3` before the Buildx setup step.
+
    ```yaml
    - name: Set up QEMU
      uses: docker/setup-qemu-action@v3
    ```
+
 1. Update the `docker/build-push-action` step to include platforms.
+
    ```yaml
    - name: Build and push Docker image
      uses: docker/build-push-action@v5
@@ -47,6 +50,7 @@ Adding pull request triggers allows testing your Docker workflow before merging 
        labels: {% raw %}${{ steps.meta.outputs.labels }}{% endraw %}
        platforms: linux/amd64,linux/arm64
    ```
+
    _Note: We set `push` to false for pull requests to avoid publishing untested images._
 1. Commit your changes and open a Pull Request to the `main` branch.
 

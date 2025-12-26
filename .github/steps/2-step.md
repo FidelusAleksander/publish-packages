@@ -18,8 +18,33 @@ The `docker/build-push-action` replaces manual `docker build` and `docker push` 
 
 ### ⌨️ Activity: See and run your docker image
 
-1. Go to packages, copy bash command
-1. In your codespace run ...
+If everything went correctly, we should now we able to see your image, pull it and run it!
+
+1. Go to your repository [main page](https://github.com/{{ full_repo_name }})
+1. On the right side click `{{ full_repo_name | lower }}/stackoverflown`
+<!-- TODO: ADD IMAGE -->
+1. Copy the command that starts with `docker pull ...`
+1. Back in your codespace, run that command in the terminal to download the image from the container registry
+1. Verify the image is available locally by running:
+
+   ```bash
+   docker images
+   ```
+
+1. Let's create a Docker container from that image and see the stackoverflown app running!
+
+   ```bash
+   docker run -p 8080:80 ghcr.io/{{ full_repo_name | lower }}/stackoverflown:latest
+   ```
+
+1. You can access the application through the `Ports` tab - on port `80`
+
+   > ✨ Take a moment to play the game!
+
+1. You can stop the application from running by hitting `Ctrl + C` (`Cmd + C` on Mac) back in the terminal
+
+> [!NOTE]
+> Throughout this exercise, we'll create different versions of the image. You can always use these same steps to pull and run any version you create, even if not explicitly instructed.
 
 ### ⌨️ Activity: Implement Docker Build Actions
 
@@ -35,7 +60,6 @@ The `docker/build-push-action` replaces manual `docker build` and `docker push` 
      with:
        context: .
        push: true
-       provenance: true
        tags: |
          ghcr.io/{{ full_repo_name | lower }}/stackoverflown:latest
          ghcr.io/{{ full_repo_name | lower }}/stackoverflown:{% raw %}${{ github.sha }}{% endraw %}
