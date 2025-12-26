@@ -5,13 +5,13 @@
 GitHub Packages is a platform for hosting and managing packages, including containers and other dependencies. It offers different package registries for commonly used package managers, such as:
 
 - 📦 npm
+- 🐳 Docker
 - 💎 RubyGems
 - 🪶 Apache Maven
 - 🐘 Gradle
-- 🐳 Docker
 - 🔷 NuGet
 
-In this exercise we will work **GitHub Container Registry** (`ghcr.io`) to publish 🐳 Docker images.
+In this exercise we will setup automation to publish 🐳 Docker images to **GitHub Container Registry** (`ghcr.io`).
 
 To authenticate to the GitHub Container Registry in GitHub Actions workflows, you must ensure the `packages` `permission` is set so the built-in `GITHUB_TOKEN` secret can be used as password.
 
@@ -55,7 +55,7 @@ Let's start off with creating a workflow to build publish a docker image.
      packages: write
    ```
 
-   This workflow will run on pushes to the `main` branch with permissions to read the repository contents and push packages to the GitHub Container Registry.
+   This workflow will run on all commits pushed to the `main` branch with permissions to read the repository contents and push packages to the GitHub Container Registry.
 
 1. Add the `build-and-push` job to the end of the file:
 
