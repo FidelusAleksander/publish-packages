@@ -87,6 +87,8 @@ Let's start off with creating a workflow to build publish a docker image.
    This job checks out the code, logs in to the GitHub Container Registry using the `GITHUB_TOKEN` (which has `packages: write` permissions), and then builds and pushes the Docker image.
 
 1. Commit and push your changes to the `main` branch.
+1. As you commit your changes Mona will prepare the next step in this exercise!
+
 
 <details>
 <summary>Having trouble? 🤷</summary><br/>

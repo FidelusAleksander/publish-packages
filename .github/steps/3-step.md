@@ -1,23 +1,35 @@
 ## Step 3: Dynamic Tagging with Metadata
 
-### 📖 Theory: Automated Tagging and Versioning
+Great job! You now have a workflow that uses the official Docker actions to build and push your image.
 
-Hardcoding image tags like `:latest` is not sustainable for real workflow.
+Now, let's make our workflow smarter by automatically generating different image tags and labels for different event triggers.
 
- The `docker/metadata-action` automatically generates appropriate tags and labels based on Git context - creating different tags for branches, pull requests, and version tags.
+### 📖 Theory: Lifecycle-Based Publishing
 
-This action extracts information from Git references and GitHub events to create meaningful Docker image metadata. It supports semantic versioning patterns, branch-based tagging, and pull request labeling, making your container workflow more professional and maintainable.
-on**: Creates OCI-compliant labels for better image documentation
+In a real-world software development lifecycle (SDLC), you often need to publish Docker images at various stages, not just when pushing to the main branch.
 
-#### References
+For these different events you may choose different tagging strategies, here are some examples:
 
-- [docker/metadata-action documentation](https://github.com/docker/metadata-action#about)
-- [Docker image tagging best practices](https://docs.docker.com/develop/dev-best-practices/)
+- **Main Branch**: Latest "bleeding edge" version (e.g., `latest`).
+- **Commits**: Immutable tags using the commit SHA (e.g., `28270383c5854bf`).
+- **Pull Requests**: Build and publish for testing (e.g., `pr-123`).
+- **Releases**: Stable versions triggered by Git tags (e.g., `v1.0.0`).
 
-### ⌨️ Activity: Docker metadata extraction
+Managing all these different tagging strategies manually in your workflow file can get messy. The `docker/metadata-action` simplifies this by automatically generating Docker tags and labels based on the Git context (branch, tag, or PR) that triggered the workflow.
 
-1. Edit `.github/workflows/docker-publish.yml`.
-1. Update the workflow trigger to include `tags` matching `v*` pattern and pull requests.
+| Event | Ref | Tag |
+| :--- | :--- | :--- |
+| Pull Request | `refs/pull/2/merge` | `pr-2` |
+| Push Branch | `refs/heads/main` | `main` |
+| Push Tag | `refs/tags/v1.2.3` | `v1.2.3` |
+
+
+### ⌨️ Activity: Adding additional triggers and metadata action
+
+Let's update our workflow to support multiple triggers and use the metadata action for dynamic docker image tagging.
+
+1. Edit the `.github/workflows/docker-publish.yml` file.
+1. Update the top part of the workflow to include all of the following triggers
 
     ```yaml
     on:
@@ -29,11 +41,12 @@ on**: Creates OCI-compliant labels for better image documentation
       pull_request:
         branches:
           - main
+      workflow_dispatch:
     ```
 
 1. Add a step to extract metadata (tags, labels) for Docker images
 
-  Place it after the `docker/login-action` step.
+  ❗️ Place it before the `docker/build-push-action` step.
 
   ```yaml
   - name: Extract metadata (tags, labels) for Docker
@@ -51,22 +64,15 @@ on**: Creates OCI-compliant labels for better image documentation
      with:
        context: .
        push: true
+       platforms: linux/amd64,linux/arm64
+       provenance: true
        tags: {% raw %}${{ steps.meta.outputs.tags }}{% endraw %}
        labels: {% raw %}${{ steps.meta.outputs.labels }}{% endraw %}
    ```
 
-1. Commit your changes and push a new tag to test the versioning (e.g., `v1.0.0`).
+  Ensure the yaml indentation is setup correctly!
 
-   ```bash
-   git commit -am "Add docker/metadata-action for tagging and labeling" && git push
-   git tag v1.0.0 && git push origin v1.0.0
-   ```
+   > 💡 **Tip:** You can run `actionlint` command in the terminal to see if the workflow is properly formatted.
 
-<details>
-<summary>Having trouble? 🤷</summary><br/>
-
-- Make sure you gave the metadata step an `id: meta` so you can reference its outputs.
-- Ensure the `tags` trigger pattern matches the tag you push (e.g., `v*.*.*` matches `v1.0.0`).
-- Check that you are using `{% raw %}${{ steps.meta.outputs.tags }}{% endraw %}` and `{% raw %}${{ steps.meta.outputs.labels }}{% endraw %}` correctly.
-
-</details>
+1. Commit and push your changes to the `main` branch.
+1. As you commit your changes Mona will prepare the next step in this exercise!

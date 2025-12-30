@@ -1,64 +1,78 @@
-## Step 4: Multi-Platform Support and PR Testing
+## Step 4: Release the Game
 
-<!-- ### 📖 Theory: Cross-Platform Builds and CI
+You have successfully set up a robust workflow that automatically tags your Docker images based on the Git context!
 
-Modern applications need to run on different processor architectures. The `docker/setup-qemu-action` enables emulation for building images that target different platforms like ARM64 (Apple Silicon, Raspberry Pi) and AMD64 (Intel/AMD processors) from a single workflow.
+Now, let's put it to the test by simulating a real-world development cycle: adding a feature, merging it, and releasing a new version.
 
-Adding pull request triggers allows testing your Docker workflow before merging changes to main. This provides confidence that container builds work correctly and helps catch issues early in the development process.
+### ⌨️ Activity: Add a feature
 
-- **Multi-platform builds**: Single workflow creates images for multiple CPU architectures
-- **QEMU emulation**: Enables cross-platform builds on GitHub's x86_64 runners
-- **Pull request testing**: Validates Docker workflows before merging code changes
-- **CI/CD integration**: Complete pipeline from development to production deployment
+Let's start off by adding a simple code change to our source code.
 
-#### References
+1. Start by switching to a new branch called `feature/add-high-score`:
 
-- [Multi-platform builds with Buildx](https://docs.docker.com/buildx/working-with-buildx/#build-multi-platform-images)
-- [GitHub Actions pull request triggers](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request) -->
+    ```bash
+    git branch feature/add-high-score
+    git checkout feature/add-high-score
+    ```
 
-### ⌨️ Activity: Add Multi-Platform and PR Support
+1. Open the `src/index.html` file.
+1. At `line 20`, replace the `info-section` area about scoring with the below example.
 
-1. Create a new branch named `feature/multi-platform`.
-1. Edit `.github/workflows/docker-publish.yml`.
-1. Update the workflow trigger to include `pull_request` events for the `main` branch.
-
-   ```yaml
-   on:
-     push:
-       branches: ["main"]
-       tags: ["v*.*.*"]
-     pull_request:
-       branches: ["main"]
+   ```txt
+   <div class="info-section">
+      <h3>Current Score</h3>
+      <div class="score" id="score">0</div>
+      <h3>High Score</h3>
+      <div class="high-score" id="high-score">0</div>
+   </div>
    ```
 
-1. Add a step to set up QEMU using `docker/setup-qemu-action@v3` before the Buildx setup step.
+   This will demonstrate 3 kinds of changes:
 
-   ```yaml
-   - name: Set up QEMU
-     uses: docker/setup-qemu-action@v3
+   - Modify the `Score` label to `Current Score`
+   - Add the `High Score` information.
+   - Remove the `status` information.
+
+1. Commit and push your changes to the `feature/add-high-score` branch.
+
+   ```bash
+   git add src/index.html
+   git commit -m "Add high score display"
+   git push -u origin feature/add-high-score
    ```
 
-1. Update the `docker/build-push-action` step to include platforms.
+### ⌨️ Activity: Create a pull request
 
-   ```yaml
-   - name: Build and push Docker image
-     uses: docker/build-push-action@v5
-     with:
-       context: .
-       push: {% raw %}${{ github.event_name != 'pull_request' }}{% endraw %}
-       tags: {% raw %}${{ steps.meta.outputs.tags }}{% endraw %}
-       labels: {% raw %}${{ steps.meta.outputs.labels }}{% endraw %}
-       platforms: linux/amd64,linux/arm64
-   ```
+Now that you have your feature branch ready, let's create a Pull Request to see if your workflow builds the image with the appropriate `pr-X` tag.
 
-   _Note: We set `push` to false for pull requests to avoid publishing untested images._
-1. Commit your changes and open a Pull Request to the `main` branch.
+1. In a new browser tab, navigate to the [Pull Requests](https://github.com/{{full_repo_name}}/pulls) tab of your repository.
+1. Create a Pull Request targeting `main` branch from the branch you just created. 
+   > ⏳ **Wait:** Don't merge it yet!
+1. Go to the **[Actions](https://github.com/{{full_repo_name}}/actions)** tab and watch the `Docker Publish` workflow run triggered by the Pull Request.
+   - This run will build the image with the `pr-X` tag (e.g., `pr-2`).
+1. Once the workflow finishes successfully verify the image is present in the **Packages** section of your repository.
+1. (optional) You can pull and run the image in your codespace to see the changes in action before merging!
 
-<details>
-<summary>Having trouble? 🤷</summary><br/>
+    Replace `<PR_NUMBER>` with your actual Pull Request number:
 
-- Ensure `docker/setup-qemu-action` is placed before `docker/setup-buildx-action`.
-- Check the `platforms` list is comma-separated without spaces.
-- Verify the `push` condition correctly handles pull requests.
+    ```bash
+    docker run -d -p 8080:80 ghcr.io/{{ full_repo_name | lower }}/stackoverflown:pr-<PR_NUMBER>
+    ```
 
-</details>
+### ⌨️ Activity: Merge the pull request and create a release
+
+Alright! Now let's merge the pull request and create a stable release with a proper version tag.
+
+1. Go back to the Pull Request and merge it into `main`.
+   > 🪧 **Note:** This will also trigger a new **Docker Publish** workflow run
+1. Go to the **Code** tab and click on **Releases** (on the right sidebar).
+1. Create a new release:
+   - Choose a tag: `v1.0.0` (Create new tag)
+   - Target: `main`
+   - Release Title: `v1.0.0`
+   - Description: `First official release with high score tracking!`
+1. Publish the release.
+1. Go to the **Actions** tab one last time. You should see a workflow run triggered by the new tag.
+   - This run will build the image with the `v1.0.0` tag.
+1. Once the release is published Mona will get back to you with a quick exercise review!
+
