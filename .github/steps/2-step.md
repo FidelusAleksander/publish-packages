@@ -16,6 +16,11 @@ Similarly to `docker/login-action` that you just used, there are also other open
 | `docker/setup-qemu-action`   | Enables building for different architectures (e.g., ARM64)                                                        |
 | `docker/setup-buildx-action` | Enables multi-platform builds, cache export, and full [BuildKit](https://docs.docker.com/build/buildkit/) support |
 
+> [!TIP]
+> These actions, like many others, are available in the [GitHub Marketplace](https://github.com/marketplace?query=docker&type=actions). 
+>
+> When you want to automate something with GitHub Actions, the [GitHub Marketplace](https://github.com/marketplace?type=actions) is a great place to start! Search it to see if someone has already built an action that solves your problem or part of it.
+
 ### ⌨️ (optional) Activity: Pull and run your docker image
 
 The commit from your previous step should have triggered the first run of your workflow and published a Docker image to the GitHub Container Registry.
@@ -23,7 +28,7 @@ The commit from your previous step should have triggered the first run of your w
 Let's pull that image and run it in your codespace to see the game running!
 
 1. Go to your repository [main page](https://github.com/{{ full_repo_name }})
-1. On the right side, under the **Packages** section, click `{{ full_repo_name | lower }}/stackoverflown`
+1. On the right side, under the **Packages** section, click `{{ repo_name | lower }}/stackoverflown`
    <!-- TODO: ADD IMAGE -->
 1. Copy the command that starts with `docker pull ...`
 1. Back in your codespace, run that command in the terminal to download the image from the container registry
