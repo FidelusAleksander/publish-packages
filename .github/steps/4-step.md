@@ -65,7 +65,7 @@ Alright! Now let's merge the pull request and create a stable release with a pro
 
 1. Go back to the Pull Request and merge it into `main`.
    > 🪧 **Note:** This will also trigger a new **Docker Publish** workflow run
-1. Go to the **Code** tab and click on **Releases** (on the right sidebar).
+1. Go to the **Code** tab of your repository and click on **Releases** (on the right sidebar).
 1. Create a new release:
    - Choose a tag: `v1.0.0` (Create new tag)
    - Target: `main`
