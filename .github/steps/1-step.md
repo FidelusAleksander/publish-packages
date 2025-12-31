@@ -2,9 +2,11 @@
 
 Welcome to the "Stackoverflown" team! You and your team have been working hard on an awesome web-based game called **Stackoverflown**. It's a hit, and now you want to package it for distribution so players everywhere can easily run it and deploy it to their servers.
 
-<img alt="Screenshot of the Stackoverflown game" src="https://github.com/user-attachments/assets/placeholder-image-link" width="600">
+<img alt="Screenshot of the Stackoverflown game" src="https://github.com/user-attachments/assets/2bcba6c0-6142-4880-87e4-a6d409dd0293" width="900">
 
-To make this happen efficiently, let's automate the process of packaging new versions of your app!
+
+
+To make this happen efficiently, let's automate the process of packaging new versions of your app using GitHub Actions!
 
 
 ### 📖 Theory: About GitHub Packages and Container Registry
