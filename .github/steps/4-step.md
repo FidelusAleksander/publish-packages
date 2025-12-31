@@ -73,8 +73,8 @@ Alright! Now let's merge the pull request and create a stable release with a pro
    - Choose a tag: `v1.0.0` (Create new tag)
    - Target: `main`
    - Release Title: `v1.0.0`
-   - Description: `First official release with high score tracking!`
-1. Publish the release.
-1. Go to the **Actions** tab one last time. You should see a workflow run triggered by the new tag.
+   - Release notes: `First official release with high score tracking!`
+1. At the bottom, click the **Publish release** button.
+1. Go to the **[Actions](https://github.com/{{full_repo_name}}/actions)** tab one last time. You should see a workflow run triggered by the new tag.
    - This run will build the image with the `v1.0.0` tag.
 1. Once the release is published Mona will get back to you with a quick exercise review!
