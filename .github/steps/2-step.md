@@ -1,25 +1,29 @@
 ## Step 2: Level up with Docker Actions
 
-Congrats! That commit you just did should have triggered the first run of your workflow and published a Docker image to the GitHub Container Registry
+Good job!
+
+That commit you just did should have triggered the first run of your workflow and published a Docker image to the GitHub Container Registry
 
 Let's see how to download that image and enhance the workflow with open source docker actions.
 
 ### 📖 Theory: Specialized Docker Actions
 
-Similarly to `docker/login-action` there are also other open source actions that provide significant improvements for container workflows.
+Similarly to `docker/login-action` that you just used, there are also other open source actions that provide significant improvements for container workflows. Let's take a look at some of them:
 
-| Action                       | Benefits                                                                           |
-| :--------------------------- | :--------------------------------------------------------------------------------- |
-| `docker/setup-qemu-action`   | Enables building for different architectures (e.g., ARM64) via emulation           |
-| `docker/setup-buildx-action` | Enables multi-platform builds, cache export, and full BuildKit support             |
-| `docker/build-push-action`   | Supports multi-platform builds, secrets, remote cache, and advanced build features |
+| Action                       | Benefits                                                                                                          |
+| :--------------------------- | :---------------------------------------------------------------------------------------------------------------- |
+| `docker/build-push-action`   | Supports multi-platform builds, secrets, remote cache, and advanced build features                                |
+| `docker/setup-qemu-action`   | Enables building for different architectures (e.g., ARM64)                                                        |
+| `docker/setup-buildx-action` | Enables multi-platform builds, cache export, and full [BuildKit](https://docs.docker.com/build/buildkit/) support |
 
 ### ⌨️ (optional) Activity: Pull and run your docker image
 
-If everything went correctly, we should now we able to see your image, pull it, run it and play the Stackoverflown game!
+The commit from your previous step should have triggered the first run of your workflow and published a Docker image to the GitHub Container Registry.
+
+Let's pull that image and run it in your codespace to see the game running!
 
 1. Go to your repository [main page](https://github.com/{{ full_repo_name }})
-1. On the right side click `{{ full_repo_name | lower }}/stackoverflown`
+1. On the right side, under the **Packages** section, click `{{ full_repo_name | lower }}/stackoverflown`
    <!-- TODO: ADD IMAGE -->
 1. Copy the command that starts with `docker pull ...`
 1. Back in your codespace, run that command in the terminal to download the image from the container registry
@@ -32,7 +36,7 @@ If everything went correctly, we should now we able to see your image, pull it, 
 1. Let's create a Docker container from that image and see the stackoverflown app running!
 
    ```bash
-   docker run -p 8080:80 ghcr.io/{{ full_repo_name | lower }}/stackoverflown:latest
+   docker run -p 8080:80 ghcr.io/{{ full_repo_name | lower }}/stackoverflown:main
    ```
 
 1. You can access the application through the `Ports` tab - on port `80`
@@ -65,7 +69,7 @@ Let's edit the workflow to use the official Docker actions for a more robust and
        platforms: linux/amd64,linux/arm64
        provenance: true
        tags: |
-         ghcr.io/{{ full_repo_name | lower }}/stackoverflown:latest
+         ghcr.io/{{ full_repo_name | lower }}/stackoverflown:main
          ghcr.io/{{ full_repo_name | lower }}/stackoverflown:{% raw %}${{ github.sha }}{% endraw %}
    ```
 

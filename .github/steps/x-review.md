@@ -1,19 +1,18 @@
-## Review: Publish Docker Packages
+## Review
 
-Congratulations! You've built a robust, production-ready Docker publishing pipeline using GitHub Actions. You started with basic commands and evolved your workflow to include advanced features like dynamic tagging, multi-platform support, and automated testing.
+_Congratulations, you've completed this exercise and learned how to publish packages to GitHub Container Registry!_
 
-### What you learned
+<img src="https://octodex.github.com/images/repo.png" alt="celebrate" width=200 align=right>
 
-- **Basic Docker Automation**: Authenticating with GHCR and using standard Docker commands in CI.
-- **Advanced Docker Actions**: Leveraging `docker/setup-buildx-action` and `docker/build-push-action` for performance and flexibility.
-- **Dynamic Metadata**: Using `docker/metadata-action` to automatically generate semantic version tags and labels.
-- **Multi-Platform Builds**: Building images for multiple architectures (AMD64, ARM64) using QEMU.
-- **CI/CD Best Practices**: Implementing pull request testing to validate builds before merging.
+Here's a recap of your accomplishments:
+
+- **Set up GitHub Packages integration** with proper authentication and permissions using the `GITHUB_TOKEN`
+- **Created a Docker publish workflow** that builds and publishes container images to GitHub Container Registry (`ghcr.io`)
+- **Enhanced your workflow** using official Docker actions including `docker/login-action`, `docker/build-push-action`, and `docker/setup-buildx-action`
+- **Implemented dynamic tagging** with `docker/metadata-action` to automatically generate appropriate tags based on Git context (branches, pull requests, and releases)
+- **Practiced a complete development lifecycle** by creating features, pull requests, and releases with proper container versioning
 
 ### What's next?
 
-- [Learn more about GitHub Packages](https://docs.github.com/en/packages)
-- [Explore Docker Actions](https://github.com/docker/build-push-action)
-- [GitHub Skills](https://github.com/skills)
-
-Great job! You are now ready to apply these skills to your own projects and automate your container delivery pipeline.
+- Check out the other [GitHub Skills exercises](https://learn.github.com/skills).
+  - Take the [Test with Actions](https://github.com/skills-dev/test-with-actions) exercise to learn how to automate testing with GitHub Actions! Running automated tests before publishing packages is a good idea!

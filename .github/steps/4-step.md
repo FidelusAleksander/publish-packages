@@ -75,4 +75,3 @@ Alright! Now let's merge the pull request and create a stable release with a pro
 1. Go to the **Actions** tab one last time. You should see a workflow run triggered by the new tag.
    - This run will build the image with the `v1.0.0` tag.
 1. Once the release is published Mona will get back to you with a quick exercise review!
-
