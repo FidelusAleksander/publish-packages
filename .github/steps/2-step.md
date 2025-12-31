@@ -1,57 +1,88 @@
-## Step 2: Enhanced Docker Actions
+## Step 2: Level up with Docker Actions
 
+Good job!
 
+That commit you just did should have triggered the first run of your workflow and published a Docker image to the GitHub Container Registry
+
+Let's see how to download that image and enhance the workflow with open source docker actions.
 
 ### 📖 Theory: Specialized Docker Actions
 
-<!-- While basic Docker commands work, specialized GitHub Actions provide significant improvements for container workflows. The `docker/setup-buildx-action` enables BuildKit features like advanced caching, multi-platform builds, and improved performance.
+Similarly to `docker/login-action` that you just used, there are also other open source actions that provide significant improvements for container workflows. Let's take a look at some of them:
 
-The `docker/build-push-action` replaces manual `docker build` and `docker push` commands with a more configurable and efficient solution. It integrates seamlessly with Buildx and provides better error handling, caching strategies, and build optimization.
+| Action                       | Benefits                                                                                                          |
+| :--------------------------- | :---------------------------------------------------------------------------------------------------------------- |
+| `docker/build-push-action`   | Supports multi-platform builds, secrets, remote cache, and advanced build features                                |
+| `docker/setup-qemu-action`   | Enables building for different architectures (e.g., ARM64)                                                        |
+| `docker/setup-buildx-action` | Enables multi-platform builds, cache export, and full [BuildKit](https://docs.docker.com/build/buildkit/) support |
 
-- **Buildx**: Docker's build engine with extended features beyond standard Docker build
-- **Build context**: Defines which files and directories are sent to the Docker daemon
-- **Push configuration**: Control when and how images are pushed to registries
-- **Performance**: Buildx provides better caching and parallel build capabilities -->
+### ⌨️ (optional) Activity: Pull and run your docker image
 
-#### References
+The commit from your previous step should have triggered the first run of your workflow and published a Docker image to the GitHub Container Registry.
 
-- [Docker Buildx documentation](https://docs.docker.com/buildx/)
-- [docker/build-push-action usage](https://github.com/docker/build-push-action#usage)
+Let's pull that image and run it in your codespace to see the game running!
 
-### ⌨️ Activity: See and run your docker image
+1. Go to your repository [main page](https://github.com/{{ full_repo_name }})
+1. On the right side, under the **Packages** section, click `{{ full_repo_name | lower }}/stackoverflown`
+   <!-- TODO: ADD IMAGE -->
+1. Copy the command that starts with `docker pull ...`
+1. Back in your codespace, run that command in the terminal to download the image from the container registry
+1. Verify the image is available locally by running:
 
-1. Go to packages, copy bash command
-1. In your codespace run ...
+   ```bash
+   docker images
+   ```
 
-### ⌨️ Activity: Implement Docker Build Actions
+1. Let's create a Docker container from that image and see the stackoverflown app running!
 
-1. Edit `.github/workflows/docker-publish.yml`.
+   ```bash
+   docker run -p 8080:80 ghcr.io/{{ full_repo_name | lower }}/stackoverflown:main
+   ```
+
+1. You can access the application through the `Ports` tab - on port `80`
+
+   > ✨ Take a moment to play the game!
+
+1. You can stop the application from running by hitting `Ctrl + C` (`Cmd + C` on Mac) back in the terminal
+
+> [!NOTE]
+> Throughout this exercise, you will publish different versions of the image. You can always use these same steps to pull and run any version you create, even if not explicitly instructed.
+
+### ⌨️ Activity: Enhance workflow with docker actions
+
+Let's edit the workflow to use the official Docker actions for a more robust and feature-rich build process.
+
+1. Open the `.github/workflows/docker-publish.yml` file.
 1. Remove your existing `Build and push Docker image` step with `docker` commands. We will replace that with open source actions.
-1. Add these following two steps
+1. Add these following three steps in place of the step you just removed
 
    ```yaml
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        push: true
-        provenance: true
-        tags: |
-          ghcr.io/{{ full_repo_name | lower }}:latest
-          ghcr.io/{{ full_repo_name | lower }}:{% raw %}${{ github.sha }}{% endraw %}
+   - name: Set up QEMU
+     uses: docker/setup-qemu-action@v3
+   - name: Set up Docker Buildx
+     uses: docker/setup-buildx-action@v3
+   - name: Build and push Docker image
+     uses: docker/build-push-action@v6
+     with:
+       context: .
+       push: true
+       platforms: linux/amd64,linux/arm64
+       provenance: true
+       tags: |
+         ghcr.io/{{ full_repo_name | lower }}/stackoverflown:main
+         ghcr.io/{{ full_repo_name | lower }}/stackoverflown:{% raw %}${{ github.sha }}{% endraw %}
    ```
 
    Ensure the yaml indentation is setup correctly!
 
+   > 💡 **Tip:** You can run `actionlint` command in the terminal to see if the workflow is properly formatted.
+
+   <details>
+   <summary>Having trouble? 🤷 See full workflow file</summary><br/>
+
+   <!-- TODO -->
+
+   </details>
+
 1. Commit and push your changes to the `main` branch.
-
-<details>
-<summary>Having trouble? 🤷</summary><br/>
-
-- Ensure you removed the previous `run` step with `docker build` and `docker push`.
-- Check that `push: true` is set in the `docker/build-push-action` configuration.
-- Verify that `docker/setup-buildx-action` is placed before `docker/build-push-action`.
-
-</details>
+1. Monitor your workflow run in the [Actions](https://github.com/{{ full_repo_name }}/actions) tab of your repository.

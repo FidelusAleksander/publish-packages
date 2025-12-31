@@ -1,5 +1,11 @@
 ## Step 1: First interaction with GitHub Packages
 
+Welcome to the "Stackoverflown" team! You and your team have been working hard on an awesome web-based game called **Stackoverflown**. It's a hit, and now you want to package it for distribution so players everywhere can easily run it and deploy it to their servers.
+
+<img alt="Screenshot of the Stackoverflown game" src="https://github.com/user-attachments/assets/2bcba6c0-6142-4880-87e4-a6d409dd0293" width="900">
+
+To make this happen efficiently, let's automate the process of packaging new versions of your app using GitHub Actions!
+
 ### 📖 Theory: About GitHub Packages and Container Registry
 
 GitHub Packages is a platform for hosting and managing packages, including containers and other dependencies. It offers different package registries for commonly used package managers, such as:
@@ -32,7 +38,7 @@ Let's use **GitHub Codespaces** to set up a cloud-based development environment 
 
 ### ⌨️ Activity: Create Basic Docker Publish Workflow
 
-Let's start off with creating a workflow to build publish a docker image.
+Let's start off by creating a workflow to build and publish our **Stackoverflown** game as a docker image.
 
 1. Within the `.github/workflows` directory create a new workflow file named:
 
@@ -73,20 +79,21 @@ Let's start off with creating a workflow to build publish a docker image.
              password: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
          - name: Build and push Docker image
            run: |
-             docker build . --tag ghcr.io/{{ full_repo_name | lower }}/stackoverflown:latest
-             docker push ghcr.io/{{ full_repo_name | lower }}/stackoverflown:latest
+             docker build . --tag ghcr.io/{{ full_repo_name | lower }}/stackoverflown:main
+             docker push ghcr.io/{{ full_repo_name | lower }}/stackoverflown:main
    ```
 
    This job checks out the code, logs in to the GitHub Container Registry using the `GITHUB_TOKEN` (which has `packages: write` permissions), and then builds and pushes the Docker image.
 
 1. Commit and push your changes to the `main` branch.
+1. As you push your changes Mona will prepare the next step in this exercise!
 
 <details>
 <summary>Having trouble? 🤷</summary><br/>
 
 If the workflow fails, check the **Actions** tab for error logs. Common issues include:
 
-- Incorrect indentation in YAML
+- Incorrect indentation in YAML. Try running `actionlint` command in the terminal and see if any errors show up.
 - Uppercase letters in the image name (Docker requires lowercase)
 
 </details>
