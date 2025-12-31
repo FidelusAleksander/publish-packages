@@ -29,7 +29,9 @@ Let's pull that image and run it in your codespace to see the game running!
 
 1. Go to your repository [main page](https://github.com/{{ full_repo_name }})
 1. On the right side, under the **Packages** section, click `{{ repo_name | lower }}/stackoverflown`
-   <!-- TODO: ADD IMAGE -->
+
+   <img width="300" alt="Image showing packages button" src="https://github.com/user-attachments/assets/b07ff7c3-ef1c-4acd-b496-a5abebe64f8d" />
+
 1. Copy the command that starts with `docker pull ...`
 1. Back in your codespace, run that command in the terminal to download the image from the container registry
 1. Verify the image is available locally by running:
@@ -44,7 +46,10 @@ Let's pull that image and run it in your codespace to see the game running!
    docker run -p 8080:80 ghcr.io/{{ full_repo_name | lower }}/stackoverflown:main
    ```
 
-1. You can access the application through the `Ports` tab - on port `80`
+1. You can access the application through the `Ports` tab - on port `8080`
+
+   <img width="600" alt="Image showing the ports tab" src="https://github.com/user-attachments/assets/c6443a92-924f-4f31-9aa7-0a7d5d116a17" />
+
 
    > ✨ Take a moment to play the game!
 
