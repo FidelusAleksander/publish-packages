@@ -53,7 +53,7 @@ Let's pull that image and run it in your codespace to see the game running!
 
    > ✨ Take a moment to play the game!
 
-1. You can stop the application from running by hitting `Ctrl + C` (`Cmd + C` on Mac) back in the terminal
+1. You can stop the application from running by hitting `Ctrl + C` back in the terminal
 
 > [!NOTE]
 > Throughout this exercise, you will publish different versions of the image. You can always use these same steps to pull and run any version you create, even if not explicitly instructed.
@@ -65,6 +65,8 @@ Let's edit the workflow to use the official Docker actions for a more robust and
 1. Open the `.github/workflows/docker-publish.yml` file.
 1. Remove your existing `Build and push Docker image` step with `docker` commands. We will replace that with open source actions.
 1. Add these following three steps in place of the step you just removed
+
+   These steps will set up QEMU for multi-architecture builds, set up Docker Buildx, and then build and push the Docker image with two different tags.
 
    ```yaml
    - name: Set up QEMU
