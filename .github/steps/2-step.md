@@ -97,4 +97,4 @@ Let's edit the workflow to use the official Docker actions for a more robust and
    </details>
 
 1. Commit and push your changes to the `main` branch.
-1. Monitor your workflow run in the [Actions](https://github.com/{{ full_repo_name }}/actions) tab of your repository.
+1. Monitor your workflow run in the [Actions](https://github.com/{{ full_repo_name }}/actions) tab of your repository and **ensure it completes successfully**.
