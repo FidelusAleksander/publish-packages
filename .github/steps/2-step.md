@@ -90,7 +90,45 @@ Let's edit the workflow to use the official Docker actions for a more robust and
    <details>
    <summary>Having trouble? 🤷 See full workflow file</summary><br/>
 
-   <!-- TODO -->
+   In case you need it, here is the full content of the updated workflow file:
+
+    ```yaml
+    name: Docker Publish
+
+    on:
+      push:
+        branches:
+          - main
+
+    permissions:
+      contents: read
+      packages: write
+      
+    jobs:
+      build-and-push:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v6
+          - name: Log in to the Container registry
+            uses: docker/login-action@v3
+            with:
+              registry: ghcr.io
+              username: ${{ github.actor }}
+              password: ${{ secrets.GITHUB_TOKEN }}
+          - name: Set up QEMU
+            uses: docker/setup-qemu-action@v3
+          - name: Set up Docker Buildx
+            uses: docker/setup-buildx-action@v3
+          - name: Build and push Docker image
+            uses: docker/build-push-action@v6
+            with:
+              context: .
+              push: true
+              platforms: linux/amd64,linux/arm64
+              tags: |
+                ghcr.io/{{ full_repo_name | lower }}/stackoverflown:main
+                ghcr.io/{{ full_repo_name | lower }}/stackoverflown:{% raw %}${{ github.sha }}{% endraw %}
+    ```
 
    </details>
 
