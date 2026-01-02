@@ -59,6 +59,13 @@ jobs:
 
       # START: Check practical exercise
 
+      - name: Lint docker-publish.yml with actionlint
+        id: actionlint-check
+        continue-on-error: true
+        uses: raven-actions/actionlint@963d4779ef039e217e5d0e6fd73ce9ab7764e493 # v2.1.0
+        with:
+          files: .github/workflows/docker-publish.yml
+
       - name: Check for metadata-action
         id: check-metadata
         continue-on-error: true
@@ -118,6 +125,8 @@ jobs:
           vars: |
             step_number: 3
             results_table:
+              - description: "Workflow file syntax validation"
+                passed: ${{ steps.actionlint-check.outcome == 'success' }}
               - description: "Used `docker/metadata-action` action"
                 passed: ${{ steps.check-metadata.outcome == 'success' }}
               - description: "Added `tags` trigger"

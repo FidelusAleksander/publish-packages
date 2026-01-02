@@ -17,7 +17,7 @@ Similarly to `docker/login-action` that you just used, there are also other open
 | `docker/setup-buildx-action` | Enables multi-platform builds, cache export, and full [BuildKit](https://docs.docker.com/build/buildkit/) support |
 
 > [!TIP]
-> These actions, like many others, are available in the [GitHub Marketplace](https://github.com/marketplace?query=docker&type=actions). 
+> These actions, like many others, are available in the [GitHub Marketplace](https://github.com/marketplace?query=docker&type=actions).
 >
 > When you want to automate something with GitHub Actions, the [GitHub Marketplace](https://github.com/marketplace?type=actions) is a great place to start! Search it to see if someone has already built an action that solves your problem or part of it.
 
@@ -50,7 +50,6 @@ Let's pull that image and run it in your codespace to see the game running!
 
    <img width="600" alt="Image showing the ports tab" src="https://github.com/user-attachments/assets/c6443a92-924f-4f31-9aa7-0a7d5d116a17" />
 
-
    > ✨ Take a moment to play the game!
 
 1. You can stop the application from running by hitting `Ctrl + C` back in the terminal
@@ -79,7 +78,6 @@ Let's edit the workflow to use the official Docker actions for a more robust and
        context: .
        push: true
        platforms: linux/amd64,linux/arm64
-       provenance: true
        tags: |
          ghcr.io/{{ full_repo_name | lower }}/stackoverflown:main
          ghcr.io/{{ full_repo_name | lower }}/stackoverflown:{% raw %}${{ github.sha }}{% endraw %}
@@ -92,7 +90,45 @@ Let's edit the workflow to use the official Docker actions for a more robust and
    <details>
    <summary>Having trouble? 🤷 See full workflow file</summary><br/>
 
-   <!-- TODO -->
+   In case you need it, here is the full content of the updated workflow file:
+
+    ```yaml
+    name: Docker Publish
+
+    on:
+      push:
+        branches:
+          - main
+
+    permissions:
+      contents: read
+      packages: write
+      
+    jobs:
+      build-and-push:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v6
+          - name: Log in to the Container registry
+            uses: docker/login-action@v3
+            with:
+              registry: ghcr.io
+              username: ${{ github.actor }}
+              password: ${{ secrets.GITHUB_TOKEN }}
+          - name: Set up QEMU
+            uses: docker/setup-qemu-action@v3
+          - name: Set up Docker Buildx
+            uses: docker/setup-buildx-action@v3
+          - name: Build and push Docker image
+            uses: docker/build-push-action@v6
+            with:
+              context: .
+              push: true
+              platforms: linux/amd64,linux/arm64
+              tags: |
+                ghcr.io/{{ full_repo_name | lower }}/stackoverflown:main
+                ghcr.io/{{ full_repo_name | lower }}/stackoverflown:{% raw %}${{ github.sha }}{% endraw %}
+    ```
 
    </details>
 

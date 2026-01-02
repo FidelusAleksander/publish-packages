@@ -57,6 +57,13 @@ jobs:
 
       # START: Check practical exercise
 
+      - name: Lint docker-publish.yml with actionlint
+        id: actionlint-check
+        continue-on-error: true
+        uses: raven-actions/actionlint@963d4779ef039e217e5d0e6fd73ce9ab7764e493 # v2.1.0
+        with:
+          files: .github/workflows/docker-publish.yml
+
       - name: Check if workflow file exists
         id: check-file-exists
         continue-on-error: true
@@ -99,6 +106,8 @@ jobs:
           vars: |
             step_number: 1
             results_table:
+              - description: "Workflow file syntax validation"
+                passed: ${{ steps.actionlint-check.outcome == 'success' }}
               - description: "Created .github/workflows/docker-publish.yml"
                 passed: ${{ steps.check-file-exists.outcome == 'success' }}
               - description: "Used docker/login-action"
