@@ -48,15 +48,15 @@ Let's update our workflow to support multiple triggers and use the metadata acti
 
 1. Add a step to extract metadata for Docker images
 
-  ❗️ Place it before the `docker/build-push-action` step.
+    ❗️ Place it before the `docker/build-push-action` step.
 
-  ```yaml
-  - name: Extract metadata for Docker
-    id: meta
-    uses: docker/metadata-action@v5
-    with:
-      images: ghcr.io/{{ full_repo_name | lower }}/stackoverflown
-  ```
+    ```yaml
+    - name: Extract metadata for Docker
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ghcr.io/{{ full_repo_name | lower }}/stackoverflown
+    ```
 
 1. Update the `docker/build-push-action` step to use the generated tags.
 
@@ -70,9 +70,9 @@ Let's update our workflow to support multiple triggers and use the metadata acti
        tags: {% raw %}${{ steps.meta.outputs.tags }}{% endraw %}
    ```
 
-  Ensure the yaml indentation is setup correctly!
+    Ensure the yaml indentation is setup correctly!
 
-  > 💡 **Tip:** You can run `actionlint` command in the terminal to see if the workflow is properly formatted.
+    > 💡 **Tip:** You can run `actionlint` command in the terminal to see if the workflow is properly formatted.
 
 1. Commit and push your changes to the `main` branch.
 1. As you commit your changes Mona will prepare the next step in this exercise!
