@@ -73,11 +73,21 @@ Alright! Now let's merge the pull request and create a stable release with a pro
 
 <img width="300" alt="Image showing the releases section of the repository" src="https://github.com/user-attachments/assets/0b158ddf-b7f9-42c1-8a9e-3fef5a6a2570" />
 
+
 1. Create a new release:
    - Choose a tag: `v1.0.0` (Create new tag)
    - Target: `main`
    - Release Title: `v1.0.0`
    - Release notes: `First official release with high score tracking!`
+
+   <details>
+   <summary>📸 Show screenshot</summary><br/>
+
+
+   <img width="600" alt="screenshot of create release page" src="https://github.com/user-attachments/assets/c420766e-0551-44bc-8209-a3438d724cfd" />
+   
+   </details>
+
 1. At the bottom, click the **Publish release** button.
 1. Go to the **[Actions](https://github.com/{{full_repo_name}}/actions)** tab one last time. You should see a workflow run triggered by the new tag.
    - This run will build the image with the `v1.0.0` tag.
@@ -91,19 +101,22 @@ You're done! As an optional step, you can explore the package settings for your 
 <details>
 <summary>✨ Bonus steps: manage package settings</summary>
 
-1. Go to your **Stackoverflown** packages page and click `Package settings` on the right side.
+1. Go to your **Stackoverflown** packages page and click **Package settings** on the right side.
+   
+   <img width="600"  alt="Image showing package settings button" src="https://github.com/user-attachments/assets/c6556fcd-2816-4b6d-823e-0b37a0cff1d1" />
 
-   <img width="300" alt="Image showing packages button" src="
 
-1. (optional) Under Manage Actions access, you can choose additional repositories that can access this package beyond the current repository.
+1. (optional) Under **Manage Actions access**, you can choose additional repositories that can access this package beyond the current repository.
 
-   <img width="600" alt="Image showing manage actions access" src="
+   <img width="600" alt="Image showing manage actions access" src="https://github.com/user-attachments/assets/f0c7b318-6d60-49de-b288-a68c7880bbbb" />
+
 
    > 💡 **Tip:** This is particularly useful in an organization setting where multiple repositories may need access to the same package.
 
 1. (optional) Under **Danger Zone** you change the visibility or delete the package (all of its versions).
 
-   <img width="600" alt="Image showing danger zone" src="https://github.com/user-attachments/assets/PLACEHOLDER" />
+   <img width="600" alt="Image showing danger zone section" src="https://github.com/user-attachments/assets/5e28dfd4-65e4-434e-8977-1dba4a4980ab" />
+
 
    > ❕ **Important:** Since packages are linked to your **account** (not the repository), deleting this repository **will not** delete the package. If you ever want to delete the package you must delete do it from this page.
 
