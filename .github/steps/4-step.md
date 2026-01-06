@@ -10,10 +10,10 @@ Let's start off by adding a simple code change to our source code.
 
 1. Start by switching to a new branch called `feature/add-high-score`:
 
-    ```bash
-    git branch feature/add-high-score
-    git checkout feature/add-high-score
-    ```
+   ```bash
+   git branch feature/add-high-score
+   git checkout feature/add-high-score
+   ```
 
 1. Open the `src/index.html` file.
 1. At `line 20`, replace the `info-section` area about scoring with the below example.
@@ -46,23 +46,22 @@ Let's start off by adding a simple code change to our source code.
 Now that you have your feature branch ready, let's create a Pull Request to see if your workflow builds the image with the appropriate `pr-X` tag.
 
 1. In a new browser tab, navigate to the [Pull Requests](https://github.com/{{full_repo_name}}/pulls) tab of your repository.
-1. Create a Pull Request targeting `main` branch from the branch you just created. 
+1. Create a Pull Request targeting `main` branch from the branch you just created.
    > ⏳ **Wait:** Don't merge it yet!
 1. Go to the **[Actions](https://github.com/{{full_repo_name}}/actions)** tab and watch the `Docker Publish` workflow run triggered by the Pull Request.
    - This run will build the image with the `pr-X` tag (e.g., `pr-2`).
 1. Once the workflow finishes successfully verify the image is present in the **Packages** section of your repository.
 1. (optional) You can pull and run the image in your codespace to see the changes in action before merging!
 
-    Replace `<PR_NUMBER>` with your actual Pull Request number:
+   Replace `<PR_NUMBER>` with your actual Pull Request number:
 
-    ```bash
-    docker run -d -p 8080:80 ghcr.io/{{ full_repo_name | lower }}/stackoverflown:pr-<PR_NUMBER>
-    ```
+   ```bash
+   docker run -d -p 8080:80 ghcr.io/{{ full_repo_name | lower }}/stackoverflown:pr-<PR_NUMBER>
+   ```
 
    You can access the application through the `Ports` tab - on port `8080` and see the new high score feature!
 
    <img width="600" alt="Image showing the ports tab" src="https://github.com/user-attachments/assets/c6443a92-924f-4f31-9aa7-0a7d5d116a17" />
-
 
 ### ⌨️ Activity: Merge the pull request and create a release
 
@@ -72,7 +71,7 @@ Alright! Now let's merge the pull request and create a stable release with a pro
    > 🪧 **Note:** This will also trigger a new **Docker Publish** workflow run
 1. Go to the **Code** tab of your repository and click on **Releases** (on the right sidebar).
 
-    <img width="300" alt="Image showing the releases section of the repository" src="https://github.com/user-attachments/assets/0b158ddf-b7f9-42c1-8a9e-3fef5a6a2570" />
+<img width="300" alt="Image showing the releases section of the repository" src="https://github.com/user-attachments/assets/0b158ddf-b7f9-42c1-8a9e-3fef5a6a2570" />
 
 1. Create a new release:
    - Choose a tag: `v1.0.0` (Create new tag)
@@ -84,3 +83,28 @@ Alright! Now let's merge the pull request and create a stable release with a pro
    - This run will build the image with the `v1.0.0` tag.
 1. Once the workflow finishes successfully verify the image `v1.0.0` image is present in the **Packages** section of your repository.
 1. Once the release is published Mona will get back to you with a quick exercise review!
+
+### ⌨️ Activity: (optional) Manage your package settings
+
+You're done! As an optional step, you can explore the package settings for your Docker image to adjust visibility, access control or delete the package if desired.
+
+<details>
+<summary>✨ Bonus steps: manage package settings</summary>
+
+1. Go to your **Stackoverflown** packages page and click `Package settings` on the right side.
+
+   <img width="300" alt="Image showing packages button" src="
+
+1. (optional) Under Manage Actions access, you can choose additional repositories that can access this package beyond the current repository.
+
+   <img width="600" alt="Image showing manage actions access" src="
+
+   > 💡 **Tip:** This is particularly useful in an organization setting where multiple repositories may need access to the same package.
+
+1. (optional) Under **Danger Zone** you change the visibility or delete the package (all of its versions).
+
+   <img width="600" alt="Image showing danger zone" src="https://github.com/user-attachments/assets/PLACEHOLDER" />
+
+   > ❕ **Important:** Since packages are linked to your **account** (not the repository), deleting this repository **will not** delete the package. If you ever want to delete the package you must delete do it from this page.
+
+</details>
